@@ -1,10 +1,6 @@
-import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.RequestSpecification;
 
 import java.util.Map;
-
-import static io.restassured.RestAssured.given;
 
 public class CourierClient extends Client {
 

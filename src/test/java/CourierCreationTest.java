@@ -1,10 +1,11 @@
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class CourierTest {
+public class CourierCreationTest {
 
     private final CourierClient client = new CourierClient();
     private final CourierAssertions check = new CourierAssertions();
@@ -20,7 +21,8 @@ public class CourierTest {
 
 
     @Test
-    public void courier() {
+    @DisplayName("Courier creation with login then")
+    public void courierCreationPositiveTest() {
         Courier courier = CourierGenerator.random();
         ValidatableResponse response = client.createCourier(courier);
         check.createdSuccessfully(response);
@@ -31,5 +33,24 @@ public class CourierTest {
 
         assert courierId != 0;
     }
+
+    @Test
+    @DisplayName("Courier creation with the same creds")
+    public void courierCreationWithSameCreds() {
+        Courier courier = CourierGenerator.random();
+        ValidatableResponse response = client.createCourier(courier);
+        check.createdSuccessfully(response);
+
+        ValidatableResponse response1 = client.createCourier(courier);
+        check.createdUnsuccessfully409(response1);
+
+        Credentials creds = Credentials.from(courier);
+        ValidatableResponse loginResponse = client.login(creds);
+        courierId = check.loggedInSuccessfully(loginResponse);
+
+        assert courierId != 0;
+
+    }
+
 
 }

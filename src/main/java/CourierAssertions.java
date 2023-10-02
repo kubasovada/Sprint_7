@@ -26,4 +26,11 @@ public class CourierAssertions {
         response.assertThat()
                 .statusCode(HttpURLConnection.HTTP_OK);
     }
+
+    public void createdUnsuccessfully409(ValidatableResponse response) {
+        response.assertThat()
+                .statusCode(HttpURLConnection.HTTP_CONFLICT);
+
+
+    }
 }
