@@ -1,18 +1,17 @@
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class CourierClient {
-    public static final String BASE_URI = "http://qa-scooter.praktikum-services.ru";
-    public static final String COURIER_PATH = "/api/v1/courier";
+public class CourierClient extends Client {
+
+    static final String COURIER_PATH = "/courier";
 
     public ValidatableResponse login(Credentials creds) {
-        return given().log().all()
-                .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
+        return spec()
                 .body(creds)
                 .when()
                 .post(COURIER_PATH + "/login") // LOGIN
@@ -20,9 +19,7 @@ public class CourierClient {
     }
 
     public ValidatableResponse createCourier(Courier courier) {
-        return given().log().all()
-                .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
+        return spec()
                 .body(courier)
                 .when()
                 .post(COURIER_PATH) // CREATE
@@ -30,9 +27,7 @@ public class CourierClient {
     }
 
     public ValidatableResponse delete(int courierId) {
-        return given().log().all()
-                .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
+        return spec()
                 .body(Map.of("id", courierId))
                 .when()
                 .delete(COURIER_PATH + "/" + courierId) // DELETE
