@@ -11,6 +11,10 @@ public class Credentials {
         this.password = password;
     }
 
+    public Credentials(String password) { // для падающего теста новый конструктор
+        this.password = password;
+    }
+
     public static Credentials from (Courier courier) {
         return new Credentials(courier.getLogin(), courier.getPassword());
 
